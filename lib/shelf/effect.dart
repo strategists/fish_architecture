@@ -6,11 +6,18 @@ import 'state.dart';
 
 Effect<ShelfState> buildEffect() {
   return combineEffects(<Object, Effect<ShelfState>>{
-    ShelfAction.fetch: _fetch,
+    Lifecycle.initState: _init,
+    ShelfAction.onTap: _onTap,
   });
 }
 
-void _fetch(Action action, Context<ShelfState> ctx) {
-  ///
-  ctx.dispatch(ShelfActionCreator.fetch());
+void _init(Action action, Context<ShelfState> ctx) {
+  ctx.state.pageController.addListener(() {});
+  ctx.dispatch(ShelfActionCreator.initAction(0));
+}
+
+void _onTap(Action action, Context<ShelfState> ctx) {
+  final int index = action.payload;
+  print("payload $index");
+  ctx.state.pageController.jumpToPage(action.payload);
 }

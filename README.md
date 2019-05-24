@@ -1,6 +1,6 @@
 # fish_architecture
 
-A new Flutter application.
+基于咸鱼fish_redux的架构.
 
 ## Getting Started
 
