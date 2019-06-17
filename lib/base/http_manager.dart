@@ -12,11 +12,13 @@ class HttpManager {
           connectTimeout: 30000,
           receiveTimeout: 30000)
       ..interceptors.add(HeaderInterceptor())
-      ..interceptors.add(LogInterceptor(
-        requestBody: true,
-        responseBody: false,
-        responseHeader: false
-      ));
+      ..interceptors.add(
+        LogInterceptor(
+          requestBody: true,
+          responseBody: false,
+          responseHeader: false,
+        ),
+      );
   }
 
   static HttpManager getInstance() {
@@ -65,9 +67,6 @@ class HttpManager {
     }
     return response.data;
   }
-
-
-
 }
 
 class HeaderInterceptor extends Interceptor {

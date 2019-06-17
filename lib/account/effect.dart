@@ -5,7 +5,7 @@ import 'package:fish_redux/fish_redux.dart';
 import 'action.dart';
 import 'state.dart';
 import 'package:fish_architecture/base/repository.dart';
-
+import 'package:fish_architecture/entity/entity.dart';
 
 Effect<AccountState> buildEffect() {
   return combineEffects(<Object, Effect<AccountState>>{
@@ -36,7 +36,7 @@ void _init(Action action, Context<AccountState> ctx) {
     }
   });
   Repository()
-      .loadProfile(ctx.context)
+      .loadFormAsset<ProfileEntity>(ctx.context, "assets/profile.json")
       .doOnListen(() {})
       .doOnError((error, stacktrace) {})
       .doOnData(

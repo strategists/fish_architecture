@@ -10,11 +10,11 @@ class Repository {
   static const String tree = "/tree/json";
   static const String project = "/project/tree/json";
 
-  Observable<ProfileEntity> loadProfile(BuildContext context) {
+  Observable<T> loadFormAsset<T>(BuildContext context, String path) {
     return Observable.fromFuture(
-            DefaultAssetBundle.of(context).loadString("assets/profile.json"))
+            DefaultAssetBundle.of(context).loadString(path))
         .map((jsonStr) {
-      return EntityFactory.generateOBJ<ProfileEntity>(json.decode(jsonStr));
+      return EntityFactory.generateOBJ<T>(json.decode(jsonStr));
     });
   }
 

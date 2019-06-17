@@ -1,5 +1,6 @@
 import 'package:fish_architecture/entity/profile_entity.dart';
 import 'package:fish_architecture/entity/study_info_entity.dart';
+import 'entity.dart';
 
 class EntityFactory {
   static T generateOBJ<T>(json) {
