@@ -17,7 +17,7 @@ class ShelfPage extends Page<ShelfState, Map<String, dynamic>> {
           view: buildView,
           dependencies: Dependencies<ShelfState>(
             slots: <String, Dependent<ShelfState>>{
-              'home': HomeConnector() + HomePage(),
+              'home.json': HomeConnector() + HomePage(),
               'account': AccountConnector() + AccountPage(),
             },
           ),

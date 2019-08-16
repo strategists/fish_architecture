@@ -6,16 +6,10 @@ import 'state.dart';
 
 Effect<ItemState> buildEffect() {
   return combineEffects(<Object, Effect<ItemState>>{
-    Lifecycle.initState: _init,
-    ItemAction.fetch: _fetch,
+    ItemAction.onClick: _click,
   });
 }
 
-void _init(Action action, Context<ItemState> ctx) {
-  ctx.dispatch(ItemActionCreator.init());
-}
+void _click(Action action, Context<ItemState> ctx) {
 
-void _fetch(Action action, Context<ItemState> ctx) {
-  ///
-  ctx.dispatch(ItemActionCreator.fetch());
 }

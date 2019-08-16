@@ -23,7 +23,7 @@ class ShelfState implements Cloneable<ShelfState> {
 ShelfState initState(Map<String, dynamic> args) {
   //just demo, do nothing here...
   final ShelfState state = ShelfState();
-  state.pageController = new PageController(initialPage: 0,);
+  state.pageController = new PageController(initialPage: 0,keepPage: true);
   state.currentPage = 0;
   return state;
 }

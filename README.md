@@ -2,6 +2,8 @@
 
 基于咸鱼fish_redux的架构.
 
+[项目地址：](https://github.com/strategists/fish_architecture)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

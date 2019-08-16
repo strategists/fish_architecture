@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'app_config.dart';
 
 class HttpManager {
   static HttpManager sInstance;
@@ -8,15 +7,17 @@ class HttpManager {
   HttpManager._() {
     _dio = new Dio()
       ..options = BaseOptions(
-          baseUrl: AppConfig.test_domain,
+          baseUrl: "https://aip.baidubce.com",
           connectTimeout: 30000,
           receiveTimeout: 30000)
       ..interceptors.add(HeaderInterceptor())
-      ..interceptors.add(LogInterceptor(
-        requestBody: true,
-        responseBody: false,
-        responseHeader: false
-      ));
+      ..interceptors.add(
+        LogInterceptor(
+          requestBody: true,
+          responseBody: false,
+          responseHeader: false,
+        ),
+      );
   }
 
   static HttpManager getInstance() {
@@ -48,13 +49,19 @@ class HttpManager {
   }
 
   // post请求封装
-  post(url, {options, cancelToken, data = null}) async {
+  post(url,
+      {options,
+      cancelToken,
+      queryParameters = const <String, dynamic>{},
+      data = null}) async {
     print('post请求::: url：$url ,body: $data');
     Response response;
 
     try {
       response = await _dio.post(url,
-          data: data != null ? data : {}, cancelToken: cancelToken);
+          queryParameters: queryParameters,
+          data: data != null ? data : {},
+          cancelToken: cancelToken);
       print(response);
     } on DioError catch (e) {
       if (CancelToken.isCancel(e)) {
@@ -66,8 +73,28 @@ class HttpManager {
     return response.data;
   }
 
+  upload(path,
+      {cancelToken, queryParameters = const <String, dynamic>{}, data}) async {
+    Response response;
 
-
+    FormData formData = new FormData.from({
+      "image":"$data",
+    });
+    try {
+      response = await _dio.post(path,
+          queryParameters: queryParameters,
+          data: formData,
+          cancelToken: cancelToken);
+      print(response);
+    } on DioError catch (e) {
+      if (CancelToken.isCancel(e)) {
+        print('get请求取消! ' + e.message);
+      } else {
+        print('get请求发生错误：$e');
+      }
+    }
+    return response.data;
+  }
 }
 
 class HeaderInterceptor extends Interceptor {
@@ -75,9 +102,14 @@ class HeaderInterceptor extends Interceptor {
   onRequest(RequestOptions options) {
 //    final token = AppConfig.userTools.getUserToken();
     final token = "";
-    if (token != null && token.length > 0) {
+    /*if (token != null && token.length > 0) {
       options.headers
           .putIfAbsent('Authorization', () => 'Bearer' + ' ' + token);
+    }*/
+
+    if (options.uri.path.contains("")) {
+      options.headers.putIfAbsent(
+          'Content-Type', () => 'application/x-www-form-urlencoded');
     }
     return super.onRequest(options);
   }

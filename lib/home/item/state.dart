@@ -4,11 +4,11 @@ import 'package:fish_redux/fish_redux.dart';
 class ItemState implements Cloneable<ItemState> {
   dynamic data;
 
-  ItemState() {}
+  ItemState({this.data});
 
   @override
   ItemState clone() {
-    return ItemState();
+    return ItemState()..data = data;
   }
 
   @override
@@ -18,7 +18,6 @@ class ItemState implements Cloneable<ItemState> {
 }
 
 ItemState initState(Map<String, dynamic> args) {
-  //just demo, do nothing here...
   final ItemState state = ItemState();
   return state;
 }

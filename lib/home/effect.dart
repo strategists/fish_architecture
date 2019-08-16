@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/services.dart';
 
-//import 'action.dart';
+import 'action.dart';
 import 'state.dart';
+import 'package:fish_architecture/base/repository.dart';
+import 'package:fish_architecture/entity/entity.dart';
 
 Effect<HomeState> buildEffect() {
   return combineEffects(<Object, Effect<HomeState>>{
@@ -33,6 +35,15 @@ void _init(Action action, Context<HomeState> ctx) {
           statusBarIconBrightness: Brightness.light));
     }
   });
+
+  Repository()
+      .loadFormAsset<HomeItemEntity>(ctx.context, "assets/home.json")
+      .doOnListen(() {})
+      .doOnError((error, stacktrace) {
+    debugPrint("error:$error");
+  }).doOnData((onData) {
+    ctx.dispatch(HomeActionCreator.onBindView(onData));
+  }).listen(null);
 }
 
 void _fetch(Action action, Context<HomeState> ctx) {

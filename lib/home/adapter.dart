@@ -9,7 +9,7 @@ class HomeAdapter extends DynamicFlowAdapter<HomeState> {
   HomeAdapter()
       : super(
           pool: <String, Component<Object>>{
-//            'header': ItemHeaderComponent(),
+            'header': ItemHeaderComponent(),
             'itemCard': ItemComponent(),
           },
           connector: _ListConnector(),
@@ -20,13 +20,26 @@ class _ListConnector extends ConnOp<HomeState, List<ItemBean>> {
   @override
   List<ItemBean> get(HomeState state) {
     List<ItemBean> list = [];
-    List<ItemState> states = [];
-    for (int i = 0; i < 10; i++) {
-      states.add(ItemState());
+    if (state.itemStates?.isNotEmpty == true) {
+      list.add(ItemBean("header", state.headerState));
+      List<ItemState> states = state.itemStates;
+
+      List<ItemBean> itemBean =
+          states.map((ItemState data) => ItemBean('itemCard', data)).toList();
+      list.addAll(itemBean);
+      return list;
+    } else {
+      return list;
     }
-    return states.map((ItemState data) => ItemBean('itemCard', data)).toList();
   }
 
   @override
-  void set(HomeState state, List<ItemBean> item) {}
+  void set(HomeState state, List<ItemBean> item) {
+    if (item?.isNotEmpty == true) {
+      state.itemStates = List<ItemState>.from(
+          item.map<ItemState>((ItemBean bean) => bean.data).toList());
+    } else {
+      state.itemStates = <ItemState>[];
+    }
+  }
 }

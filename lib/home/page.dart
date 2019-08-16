@@ -1,5 +1,5 @@
 import 'package:fish_redux/fish_redux.dart';
-
+import 'reducer.dart';
 import 'state.dart';
 import 'view.dart';
 import 'effect.dart';
@@ -12,6 +12,7 @@ class HomePage extends Page<HomeState, Map<String, dynamic>> {
           initState: initState,
           view: buildView,
           effect:buildEffect(),
+          reducer:buildReducer(),
           dependencies: Dependencies<HomeState>(
             adapter: HomeAdapter(),
 //            slots: <String, Dependent<HomeState>>{

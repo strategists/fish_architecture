@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'itemHeader/state.dart';
+import 'item/state.dart';
 
 class HomeState implements Cloneable<HomeState> {
   final double FOLD_HEAD = 150;
   ScrollController scrollController;
   ScrollController listScrollController;
+  List<ItemState> itemStates;
+  ItemHeaderState headerState;
 
   HomeState() {}
 
   @override
   HomeState clone() {
-    return HomeState();
+    return HomeState()
+      ..listScrollController = listScrollController
+      ..scrollController = scrollController
+      ..itemStates = itemStates
+      ..headerState = headerState;
   }
 
   @override
@@ -25,6 +32,7 @@ HomeState initState(Map<String, dynamic> args) {
   final HomeState state = HomeState();
   state.scrollController = new ScrollController();
   state.listScrollController = new ScrollController();
+  state.itemStates = [];
   return state;
 }
 

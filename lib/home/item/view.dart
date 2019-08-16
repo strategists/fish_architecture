@@ -4,6 +4,7 @@ import 'package:fish_architecture/style/style.dart';
 
 import 'action.dart';
 import 'state.dart';
+import 'package:fish_architecture/entity/entity.dart';
 
 Widget buildView(
   ItemState state,
@@ -18,7 +19,11 @@ class _View {
   Dispatch dispatch;
   ViewService viewService;
 
-  _View(this.state, this.dispatch, this.viewService);
+  HomeItemData homeItem;
+
+  _View(this.state, this.dispatch, this.viewService) {
+    homeItem = state.data;
+  }
 
   Widget buildItemCard() {
     var column = Column(
@@ -61,14 +66,14 @@ class _View {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "应收通",
+              homeItem.title,
               style: TextStyle(color: AppColors.home_item_title, fontSize: 18),
             ),
             Text(
-              "最高可借额度(元)",
+              homeItem.limitLabel,
               style: TextStyle(color: Colors.grey, fontSize: 12),
             ),
-            Text("500000", style: TextStyle(color: Colors.grey, fontSize: 24)),
+            Text(homeItem.limitValue, style: TextStyle(color: Colors.grey, fontSize: 24)),
           ],
         ),
         Align(
@@ -83,7 +88,7 @@ class _View {
                 return ReceivableLaunchPage();
               }));*/
             },
-            child: Text("我要融资"),
+            child: Text(homeItem.buttonText),
           ),
         ),
       ],
@@ -92,16 +97,8 @@ class _View {
 
   Widget _buildSubCard() {
     List<Widget> widgets = [];
-    var listTile = Chip(
-      backgroundColor: Colors.white,
-      label: Text(
-        "线上申请极速放款",
-        style: TextStyle(fontSize: 10),
-      ),
-      avatar: Icon(Icons.ac_unit),
-    );
-    for (int i = 0; i < 4; i++) {
-      widgets.add(listTile);
+    for (int i = 0; i < homeItem.label.length; i++) {
+      widgets.add(_buildChip(label: homeItem.label[i]));
     }
     return Card(
       color: AppColors.home_item_sub_card,
@@ -116,5 +113,16 @@ class _View {
         children: widgets,
       ),
     );
+  }
+
+  Chip _buildChip({String label = "标签"}) {
+    return Chip(
+    backgroundColor: Colors.white,
+    label: Text(
+      label,
+      style: TextStyle(fontSize: 10),
+    ),
+    avatar: Icon(Icons.ac_unit),
+  );
   }
 }
